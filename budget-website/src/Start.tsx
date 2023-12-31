@@ -11,6 +11,8 @@ const Start = () => {
     setsubmitted(true)
   }
 
+  console.log(Name)
+
   return (
     <>
       <main className={"main gap-8 px-4 text-center"}>
