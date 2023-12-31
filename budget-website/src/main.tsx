@@ -4,19 +4,40 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Start from './Start'
 import ErrorPage from './pages/ErrorPage'
-import Main from './pages/main'
+import Home from "./pages/Home"
+import Settings from './pages/Settings'
+import About from './pages/About'
+import Calendar from './pages/Calendar'
+
 
 const BrowserRoutes = createBrowserRouter([
   {
-    path: '/',
+    path: "/*",
+    element: <ErrorPage />
+  },{
+    path: "/",
     element: <Start />,
     errorElement: <ErrorPage />
   },
   {
-    path: '/main',
-    element: <Main />,
+    path: "/home",
+    element: <Home />,
     errorElement: <ErrorPage />
-    
+  },
+  {
+    path: "/settings",
+    element: <Settings />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: "/about",
+    element: <About />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: "/calendar",
+    element: <Calendar />,
+    errorElement: <ErrorPage />
   }
 ])
 

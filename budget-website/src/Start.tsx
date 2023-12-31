@@ -1,6 +1,8 @@
-import { ChangeEvent, FormEvent, FormEventHandler, useState } from "react";
+import { ChangeEvent, FormEvent, FormEventHandler, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Start = () => {
+  const nav = useNavigate()
   
   const [Name, setName] = useState<string>(
     localStorage.getItem("Name") &&
@@ -8,6 +10,15 @@ const Start = () => {
   )
   const [submitted, setsubmitted] = useState<boolean>(false)
   
+  useEffect(() => {
+    if (submitted) {
+      const mainPage = setTimeout(() => {
+        nav("/home")
+      }, 2000);
+      return () => clearTimeout(mainPage)
+    }
+  }, [submitted])
+
   const printSomething : FormEventHandler<HTMLFormElement> = (e: FormEvent) => {
     e.preventDefault()
     console.log(e)
@@ -39,7 +50,7 @@ const Start = () => {
             <input
               placeholder="Name"
               type="text"
-              className={"h-10 text-lg text-center rounded-md"}
+              className={"textinput"}
               onChange={(e : ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
               id="nameInput"
               value={Name}
