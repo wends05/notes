@@ -1,12 +1,29 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
 import './index.css'
-import Header from './components/Header.tsx'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Start from './Start'
+import ErrorPage from './pages/ErrorPage'
+import Main from './pages/main'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const BrowserRoutes = createBrowserRouter([
+  {
+    path: '/',
+    element: <Start />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/main',
+    element: <Main />,
+    errorElement: <ErrorPage />
+    
+  }
+])
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+
+root.render(
   <React.StrictMode>
-    <Header />
-    <App />
+    <RouterProvider router={BrowserRoutes} />
   </React.StrictMode>,
 )
