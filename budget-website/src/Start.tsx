@@ -2,13 +2,19 @@ import { ChangeEvent, FormEvent, FormEventHandler, useState } from "react";
 
 const Start = () => {
   
-  const [Name, setName] = useState<String>("Name")
-  const [submitted, setsubmitted] = useState(false)
-
+  const [Name, setName] = useState<string>(
+    localStorage.getItem("Name") &&
+    JSON.parse(localStorage.getItem("Name") || "")
+  )
+  const [submitted, setsubmitted] = useState<boolean>(false)
+  
   const printSomething : FormEventHandler<HTMLFormElement> = (e: FormEvent) => {
     e.preventDefault()
     console.log(e)
     setsubmitted(true)
+
+    localStorage.setItem("Name", JSON.stringify(Name))
+    console.log(localStorage["Name"])
   }
 
   console.log(Name)
@@ -36,6 +42,7 @@ const Start = () => {
               className={"h-10 text-lg text-center rounded-md"}
               onChange={(e : ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
               id="nameInput"
+              value={Name}
               disabled={submitted}
             />
             <button
