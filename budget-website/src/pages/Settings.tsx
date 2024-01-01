@@ -1,22 +1,39 @@
-import { useState } from "react";
-import Page from "../components/Page";
+import { ChangeEvent, FormEvent, FormEventHandler, useState } from "react";
 
 const Settings = () => {
+  const [Name, setName] = useState<string>(
+    localStorage.getItem("Name") &&
+      JSON.parse(localStorage.getItem("Name") || "")
+  );
 
-  const [Name, setName] = useState(
-    localStorage.getItem("Name") && JSON.parse(localStorage.getItem("Name") || "")
-  )
-  
+  const changeName: FormEventHandler<HTMLFormElement> = (e: FormEvent) => {
+    e.preventDefault();
+
+    localStorage.setItem("Name", JSON.stringify(Name));
+  };
+
+  console.log(Name);
+
   return (
-    <Page>
-      <main className={"main gap-2"}>
-        <p>Reenter your name here.</p>
-        <form className="card">
-          <input className="textinput" type="text" />
-          <input className="btn" type="button" value="Set" />
-        </form>
-      </main>
-    </Page>
+    <main className={"main gap-2"}>
+      <h1>Settings</h1>
+      <p>Reenter your name here</p>
+
+      <form
+        className="flex flex-row gap-3 bg-gray-400 rounded-xl p-2"
+        onSubmit={changeName}
+      >
+        <input
+          className="textinput"
+          type="text"
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setName(e.target.value)
+          }
+          value={Name}
+        />
+        <input className="btn" type="submit" value="Set" />
+      </form>
+    </main>
   );
 };
 

@@ -1,5 +1,4 @@
-import Page from "../components/Page";
-import CategoryComponent from "../components/CategoryComponent";
+import HomeCard from "../components/HomeCard";
 import { images } from "../assets/images";
 
 const Home = () => {
@@ -16,7 +15,7 @@ const Home = () => {
     {
       category: "Food and Drinks",
       imageLink: images.food,
-      to: "/food",
+      to: "/food_and_drinks",
     },
     {
       category: "Lifestyle",
@@ -30,36 +29,26 @@ const Home = () => {
     },
   ];
 
+  const Name = JSON.parse(localStorage.getItem("Name") || "user");
   return (
-    <Page>
-      <div className="main gap-10 relative">
-        <h1>
-          Hello,{" "}
-          {localStorage.getItem("Name") &&
-            JSON.parse(localStorage.getItem("Name") || "user")}
-          !
-        </h1>
-        <p>
-          Welcome to your Budget tracker. Pick a category for your expenses.
-        </p>
-        <div
-          className="
+    <div className="main gap-10 relative">
+      <h1>Hello, {(Name && Name) || "user"}!</h1>
+      <p>Welcome to your Budget tracker. Pick a category for your expenses.</p>
+      <div
+        className="
             grid grid-cols-1 gap-2 bg-gray-400 w-3/4 p-4 rounded-lg
-            sm:grid-cols-2
-
-          "
-        >
-          {categories.map((item, index) => (
-            <CategoryComponent
-              key={index}
-              image={item.imageLink}
-              title={item.category}
-              to={item.to}
-            />
-          ))}
-        </div>
+            sm:grid-cols-2"
+      >
+        {categories.map((item, index) => (
+          <HomeCard
+            key={index}
+            image={item.imageLink}
+            title={item.category}
+            to={item.to}
+          />
+        ))}
       </div>
-    </Page>
+    </div>
   );
 };
 

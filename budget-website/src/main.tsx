@@ -1,50 +1,90 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Start from './Start'
-import ErrorPage from './pages/ErrorPage'
-import Home from "./pages/Home"
-import Settings from './pages/Settings'
-import About from './pages/About'
-import Calendar from './pages/Calendar'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+  useLocation,
+} from "react-router-dom";
+
+import Start from "./Start";
+import ErrorPage from "./pages/ErrorPage";
+import Home from "./pages/Home";
+import Settings from "./pages/Settings";
+import About from "./pages/About";
+import Tracker from "./pages/Tracker";
+import Outline from "./pages/categories/Outline";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 
-const BrowserRoutes = createBrowserRouter([
+
+const Root = () => {
+  const loc = useLocation()
+  console.log(loc.pathname);
+
+  return loc.pathname == "/" ? (
+    <Start />
+  ) : (
+    <>
+      <Header />
+      <Outlet />
+      <Footer />
+    </>
+  );
+};
+
+const BrowserRoutes = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Root />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "/home",
+          element: <Home />,
+        },
+        {
+          path: "/settings",
+          element: <Settings />,
+        },
+        {
+          path: "/about",
+          element: <About />,
+        },
+        {
+          path: "/tracker",
+          element: <Tracker />,
+        },
+      ],
+    },
+    {
+      path: "/category",
+      element: <Outline />,
+      children: [
+        {
+          path: ":category",
+          errorElement: <ErrorPage />,
+        },
+      ],
+    },
+  ],
   {
-    path: "/*",
-    element: <ErrorPage />
-  },{
-    path: "/",
-    element: <Start />,
-    errorElement: <ErrorPage />
-  },
-  {
-    path: "/home",
-    element: <Home />,
-    errorElement: <ErrorPage />
-  },
-  {
-    path: "/settings",
-    element: <Settings />,
-    errorElement: <ErrorPage />
-  },
-  {
-    path: "/about",
-    element: <About />,
-    errorElement: <ErrorPage />
-  },
-  {
-    path: "/calendar",
-    element: <Calendar />,
-    errorElement: <ErrorPage />
+    future: {
+      v7_normalizeFormMethod: true,
+    },
   }
-])
+);
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
 root.render(
   <React.StrictMode>
     <RouterProvider router={BrowserRoutes} />
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
