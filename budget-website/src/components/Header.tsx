@@ -1,5 +1,5 @@
 
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const HeaderLinks = [
   {
@@ -28,9 +28,9 @@ const Header = () => {
     >
       {
         HeaderLinks.map((page, index)=> (
-          <Link key={index} to={page.href} className="btn">
+          <NavLink key={index} to={page.href} className="btn">
             {page.page}
-          </Link>
+          </NavLink>
         ))
       }
     </nav>
