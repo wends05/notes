@@ -18,8 +18,7 @@ import Tracker from "./pages/Tracker";
 import Outline from "./pages/categories/Outline";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-
-
+import Category, { getItems } from "./pages/categories/Category";
 
 const Root = () => {
   const loc = useLocation()
@@ -44,33 +43,35 @@ const BrowserRoutes = createBrowserRouter(
       errorElement: <ErrorPage />,
       children: [
         {
-          path: "/home",
+          path: "home",
           element: <Home />,
         },
         {
-          path: "/settings",
+          path: "settings",
           element: <Settings />,
         },
         {
-          path: "/about",
+          path: "about",
           element: <About />,
         },
         {
-          path: "/tracker",
+          path: "tracker",
           element: <Tracker />,
         },
-      ],
-    },
-    {
-      path: "/category",
-      element: <Outline />,
-      children: [
         {
-          path: ":category",
-          errorElement: <ErrorPage />,
-        },
-      ],
-    },
+          path: "category",
+          element: <Outline />,
+          children: [
+            {
+              path: ":category",
+              element: <Category  />,
+              errorElement: <ErrorPage />,
+              loader: getItems
+            }
+          ]
+        }
+      ]
+    }
   ],
   {
     future: {

@@ -1,19 +1,22 @@
+import { LoaderFunction, useLoaderData } from "react-router-dom"
 
-const Category = (
-  { category }: { category: string | undefined}
-) => {
+const Category = () => {
 
-  console.log(category)
+  const categoryLoaded = useLoaderData()
+  console.log(categoryLoaded)
 
   return (
     <>
-      <h1>{category}</h1>
+      <h1>{wah}</h1>
     </>
   )
 }
 
-export const getItems = async () => {
-  return localStorage.getItem("Items") && JSON.parse(localStorage.getItem("Items") || "")
+export default Category
+
+export const getItems : LoaderFunction<any> = async () => {
+  const categoryLoaded = await localStorage.getItem(JSON.parse("Name"))
+  return { categoryLoaded }
 }
 
-export default Category
+
