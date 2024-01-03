@@ -1,22 +1,39 @@
-import { LoaderFunction, useLoaderData } from "react-router-dom"
+import { useParams } from "react-router-dom";
+import { useEffect, ReactNode } from "react";
+import { CategoryData } from "@/utils/localStorageHandler";
 
 const Category = () => {
+  const { category } = useParams<string>();
 
-  const categoryLoaded = useLoaderData()
-  console.log(categoryLoaded)
+  const Items = JSON.parse(localStorage.getItem("Items") || "{}");
+
+  const categoryItems: CategoryData =
+    Items[category as string] || (Items[category as string] = {});
+
+  console.log(categoryItems, Items);
+
+  useEffect(() => {
+    localStorage.setItem("Items", JSON.stringify(Items));
+  }, [categoryItems]);
 
   return (
     <>
-      <h1>{wah}</h1>
+      <main className="flex flex-col justify-center items-center text-center gap-2">
+        <h1>{category?.replace(/_/g, " ")}</h1>
+        <h2>Category</h2>
+        <p>{JSON.stringify(categoryItems)}</p>
+        <p>from Items:</p>
+        {populateItems(category, categoryItems)}
+      </main>
     </>
-  )
-}
+  );
+};
 
-export default Category
+export default Category;
 
-export const getItems : LoaderFunction<any> = async () => {
-  const categoryLoaded = await localStorage.getItem(JSON.parse("Name"))
-  return { categoryLoaded }
-}
-
-
+const populateItems = (
+  category: string | undefined,
+  itemsArray : CategoryData
+) => {
+  return <></>;
+};
