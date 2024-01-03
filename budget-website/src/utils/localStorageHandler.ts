@@ -29,7 +29,7 @@ export interface Item2 {
   id: number
   Quantity?: number | 1;
   Amount?: number | 1;
-  Total: () => number
+  Total: number
 }
 
 export type Data = {
@@ -37,7 +37,7 @@ export type Data = {
   Items: Categories;
 };
 
-const getTotal = (Quantity: number, Amount: number) => Quantity * Amount
+
 
 
 const exampleData : Data = {
@@ -49,7 +49,7 @@ const exampleData : Data = {
         id: 1,
         Quantity: 10,
         Amount: 10,
-        Total: getTotal(this.Quantity, this.Amount)
+        Total: 10
       }
     }
   },
