@@ -4,26 +4,13 @@ export const createStorage = () => {
     : localStorage.setItem("Items", JSON.stringify({}));
 };
 
-// example chura sang localStorage
-
-// export type ItemsData = {
-//   [category: string]: {
-//     Total: number;
-//     Budget: number;
-//     Items: {
-//       Item: string;
-//       Amount: string;
-//       Quantity: string;
-//     }[];
-//   } | string;
-// };
 
 export type Categories = {
   [category: string]: CategoryData;
 };
 
 export type CategoryData = {
-  [Item : string]: Item2
+  [Item : string]: Item2 | {}
 }
 export interface Item2 {
   id: number
@@ -37,8 +24,7 @@ export type Data = {
   Items: Categories;
 };
 
-
-
+// example chura sang localStorage
 
 const exampleData : Data = {
   Name: "Wends",

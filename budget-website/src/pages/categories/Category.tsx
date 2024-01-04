@@ -10,7 +10,7 @@ const Category = () => {
   const categoryItems: CategoryData =
     Items[category as string] || (Items[category as string] = {});
 
-  console.log(categoryItems, Items);
+  console.log(categoryItems);
 
   useEffect(() => {
     localStorage.setItem("Items", JSON.stringify(Items));
@@ -18,7 +18,7 @@ const Category = () => {
 
   return (
     <>
-      <main className="flex flex-col justify-center items-center text-center gap-2">
+      <main className="flex flex-col justify-center items-center text-center pt-10">
         <h1>{category?.replace(/_/g, " ")}</h1>
         <h2>Category</h2>
         <p>{JSON.stringify(categoryItems)}</p>
@@ -33,7 +33,10 @@ export default Category;
 
 const populateItems = (
   category: string | undefined,
-  itemsArray : CategoryData
+  itemsArray: CategoryData
 ) => {
-  return <></>;
+  return <>
+  {
+    itemsArray && ""
+  }</>;
 };
