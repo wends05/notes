@@ -7,7 +7,7 @@ def setUp():
     
     if os.path.isfile('mygrades.json'):
         with open("mygrades.json", "r") as f:
-            grades = json.load(f, encoding="utf-8")
+            grades = json.load(f)
     else:
         with open("mygrades.json", "w") as f:
             json.dump({ }, f, indent = 4)
@@ -104,6 +104,9 @@ def removeSubject():
             remove = int(remove) - 1
 
             if 0 <= remove <= len(grades):
+                
+                print(f"{listgrades[remove]} removed (Grade: {grades[listgrades[remove]]['grade']} {(grades[listgrades[remove]]['weight'])})")
+
                 del grades[listgrades[remove]]
                 updateGradesDatabase()
                 break
