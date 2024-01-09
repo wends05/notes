@@ -1,22 +1,40 @@
+//@ts-nocheck
+
+
 export const createStorage = () => {
   localStorage.getItem("Items")
     ? localStorage.getItem("Items")
     : localStorage.setItem("Items", JSON.stringify({}));
 };
 
+export type startPageFormProps =  {
+  username: string
+}
+
+export const getName = async ({ request }) => {
+  const formData = await request.formData()
+  const Name : startPageFormProps = Object.fromEntries(formData)
+  localStorage.setItem("Name", JSON.stringify(Name.username))
+  return Name
+}
+
+export const submitItem = async ({ request }: { request: Request }) => {
+  const formData = await request.formData()
+  const ItemInfo : ItemData = Object.fromEntries(formData)
+}
 
 export type Categories = {
-  [category: string]: CategoryData;
+  [category: string]: Category;
 };
 
-export type CategoryData = {
-  [Item : string]: Item2 | {}
-}
-export interface Item2 {
-  id: number
+export type Category = {
+  [item: string]: ItemData;
+};
+export interface ItemData {
+  id: number;
   Quantity?: number | 1;
   Amount?: number | 1;
-  Total: number
+  Total: number;
 }
 
 export type Data = {
@@ -26,23 +44,33 @@ export type Data = {
 
 // example chura sang localStorage
 
-const exampleData : Data = {
+const exampleData: Data = {
   Name: "Wends",
   Items: {
-    food_and_drinks:
-    {
-      "Matcha Latte": {
+    food_and_drinks: {
+      Pizza: {
         id: 1,
-        Quantity: 10,
+        Quantity: 2,
         Amount: 10,
-        Total: 10
-      }
-    }
+        Total: 20,
+      },
+      Burger: {
+        id: 2,
+        Quantity: 2,
+        Amount: 10,
+        Total: 20,
+      },
+    },
+    bills: {
+      Rent: {
+        id: 3,
+        Quantity: 2,
+        Amount: 10,
+        Total: 20,
+      },
+    },
   },
 };
-
-
-
 // const data: Data = {
 //   Name: "Wends",
 //   Items: {

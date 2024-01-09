@@ -1,4 +1,4 @@
-import CategoryNav from "@/components/category page nav/CategoryNav";
+import CategoryNav from "@/components/category page/CategoryNav";
 import { Outlet } from "react-router-dom";
 import { images } from "@/assets/images";
 

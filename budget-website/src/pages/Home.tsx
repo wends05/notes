@@ -7,10 +7,12 @@ const Home = () => {
 
   createStorage();
 
-  const Name = JSON.parse(localStorage.getItem("Name") || "user");
+  const Name = JSON.parse(localStorage.getItem("Name") as string);
+
+  
   return (
-    <div className="main gap-10 relative text-center">
-      <h1>Hello, {(Name && Name) || "user"}!</h1>
+    <div className="main gap-10 p-2 relative text-center">
+      <h1>Hello{Name ? (`, ${Name}`): ""}!</h1>
       <p>Welcome to your Budget tracker. Pick a category for your expenses.</p>
       <div
         className="

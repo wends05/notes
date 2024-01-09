@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-    @apply bg-slate-300
+    @apply bg-stone-300
 }
 
 p {
