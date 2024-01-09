@@ -12,18 +12,20 @@ import {
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-import Start from "./Start";
 import ErrorPage from "./pages/ErrorPage";
+
+import Start from "./Start";
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import About from "./pages/About";
 import Tracker from "./pages/Tracker";
 import Outline from "./pages/categories/Outline";
 import Category from "./pages/categories/Category";
+import { getName } from "./utils/localStorageHandler";
+import Loading from "./loading";
 
 const Root = () => {
   const loc = useLocation()
-  
 
   return loc.pathname == "/" ? (
     <Start />
@@ -42,7 +44,9 @@ const BrowserRoutes = createBrowserRouter(
       path: "/",
       element: <Root />,
       errorElement: <ErrorPage />,
-      children: [
+      action: getName,
+      children:
+      [
         {
           path: "home",
           element: <Home />,
@@ -71,6 +75,11 @@ const BrowserRoutes = createBrowserRouter(
           ]
         }
       ]
+    },
+    {
+      path: "loading",
+      element: <Loading/>,
+      action: getName
     }
   ],
   {
