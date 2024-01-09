@@ -4,7 +4,7 @@ import { images } from "@/assets/images";
 
 const Outline = () => {
   return (
-    <main className="items-start pt-20">
+    <main className="pt-20 mx-2 flex flex-col justify-center items-center">
       <CategoryNav />
       <Outlet />
     </main>

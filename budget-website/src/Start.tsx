@@ -17,7 +17,6 @@ const Start = () => {
           created with Vite, React Typescript and Tailwindcss.
         </p>
         <p>To get started, please input your name below.</p>
-
         <Form
           className="flex gap-4 items-center bg-slate-500 p-4 rounded-xl"
           method="post"

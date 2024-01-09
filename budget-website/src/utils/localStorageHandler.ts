@@ -11,7 +11,7 @@ export type startPageFormProps =  {
   username: string
 }
 
-export const getName = async ({ request }) => {
+export const getName = async ({ request } : { request: Request }) => {
   const formData = await request.formData()
   const Name : startPageFormProps = Object.fromEntries(formData)
   localStorage.setItem("Name", JSON.stringify(Name.username))
