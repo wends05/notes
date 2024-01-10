@@ -4,17 +4,17 @@ import { useState } from "react";
 import { XCircle } from "lucide-react";
 
 const CategoryNav = () => {
-  const [Open, setOpen] = useState(true);
+  const [Open, setOpen] = useState(false);
 
   return (
     <>
-      <nav className="hidden sm:flex items-center rounded-md p-1 justify-center gap-2">
+      <nav className="hidden sm:flex items-center rounded-md justify-center gap-2">
         {categories.map((nav, index) => (
           <NavLink
             key={index}
             to={`/category${nav.to}`}
             className={
-              "flex flex-col bg-slate-600 rounded-md text-center items-center px-2 hover:bg-slate-600 text-white"
+              "flex flex-row bg-slate-600 rounded-md text-center items-center p-2 hover:bg-slate-600 text-white"
             }
           >
             <img
@@ -35,17 +35,28 @@ const CategoryNav = () => {
         </button>
 
         <div
-          className={`w-[50%] grid grid-cols-2 absolute p-2 text-center align-middle justify-center items-center rounded-md min-h-12 bg-slate-500
-            ${Open ? "block" : "hidden"}
+          className={`w-60 flex flex-col absolute text-center align-middle justify-center items-center rounded-md p-2 text-white bg-slate-500 transition-all duration-500
+            ${!Open && "opacity-0 -translate-y-[400px]"}
           `}
-        >
-          <p>Categories</p>
-
-          
-          <span className="items-center justify-center flex gap-x-2">
+        >   
+          <button
+            className="items-center justify-center flex gap-2 bg-slate-600 hover:bg-slate-700 rounded-md p-2"
+            onClick={() => setOpen((open) => !open)}
+          >
             <p>Close</p>
             <XCircle />
-          </span>
+          </button>
+          <div className={"py-2 flex flex-col gap-2 w-full"}>
+            {
+            categories.map((nav, index) => (
+              <NavLink to={`/category${nav.to}`} key={index} className={"bg-slate-400 rounded p-1 hover:bg-slate-600 flex flex-row items-center justify-center"} onClick={() => setOpen((open) => !open)}>
+                <img src={nav.imageLink} alt={nav.category} className={"min-h-12 max-h-12"} />
+                {nav.category}
+              </NavLink>
+            ))
+          }
+          </div>
+          
         </div>
       </nav>
     </>

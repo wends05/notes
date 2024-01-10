@@ -1,5 +1,6 @@
 //@ts-nocheck
 
+import { useParams } from "react-router-dom";
 
 export const createStorage = () => {
   localStorage.getItem("Items")
@@ -7,30 +8,40 @@ export const createStorage = () => {
     : localStorage.setItem("Items", JSON.stringify({}));
 };
 
-export type startPageFormProps =  {
-  username: string
-}
+export type startPageFormProps = {
+  username: string;
+};
 
-export const getName = async ({ request } : { request: Request }) => {
-  const formData = await request.formData()
-  const Name : startPageFormProps = Object.fromEntries(formData)
-  localStorage.setItem("Name", JSON.stringify(Name.username))
-  return Name
-}
+export const getName = async ({ request }: { request: Request }) => {
+  const formData = await request.formData();
+  const Name: startPageFormProps = Object.fromEntries(formData);
+  localStorage.setItem("Name", JSON.stringify(Name.username));
+  return Name;
+};
 
 export const submitItem = async ({ request }: { request: Request }) => {
-  const formData = await request.formData()
-  const ItemInfo : ItemData = Object.fromEntries(formData)
+  const formData = await request.formData();
+  const ItemInfo = Object.fromEntries(formData);
+  return ItemInfo;
+};
+
+export const getNewID = (IDlists : number[], Item : Item) => {
+  let newID = 1;
+  while (IDlists.sort().includes(newID)) {
+    newID++
+  }
+  Item.id = newID
+  return Item
 }
 
 export type Categories = {
   [category: string]: Category;
 };
 
-export type Category = {
-  [item: string]: ItemData;
-};
-export interface ItemData {
+export type CategoryType = Item[];
+
+export interface Item {
+  Name: string;
   id: number;
   Quantity?: number | 1;
   Amount?: number | 1;
@@ -44,31 +55,27 @@ export type Data = {
 
 // example chura sang localStorage
 
+const exampleCategory: Category = [
+  {
+    name: "Pizza",
+    id: 1,
+    Quantity: 2,
+    Amount: 10,
+    Total: 20,
+  },
+];
 const exampleData: Data = {
   Name: "Wends",
   Items: {
-    food_and_drinks: {
-      Pizza: {
+    bills: [
+      {
+        Name: "Rent",
         id: 1,
         Quantity: 2,
-        Amount: 10,
-        Total: 20,
+        Amount: 1000,
+        Total: 2000,
       },
-      Burger: {
-        id: 2,
-        Quantity: 2,
-        Amount: 10,
-        Total: 20,
-      },
-    },
-    bills: {
-      Rent: {
-        id: 3,
-        Quantity: 2,
-        Amount: 10,
-        Total: 20,
-      },
-    },
+    ],
   },
 };
 // const data: Data = {

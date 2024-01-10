@@ -1,31 +1,61 @@
-import { useParams } from "react-router-dom";
-import { FormEvent, useEffect } from "react";
-import { Category } from "@/utils/localStorageHandler";
+import { useActionData, useLoaderData, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  Categories,
+  CategoryType,
+  Item,
+  getNewID,
+} from "@/utils/localStorageHandler";
 import AddItem from "../../components/category page/AddItem";
+import { ItemDisplay } from "@/components/category page/Item";
 
 const Category = () => {
+  const ItemAdded = useActionData() as Item;
+  const getItems = useLoaderData();
   const { category } = useParams<string>();
 
-  const Items = JSON.parse(localStorage.getItem("Items") || "{}");
-
-  const categoryItems: Category =
-    Items[category as string] || (Items[category as string] = {});
-
-  console.log(categoryItems);
+  const [Items, setItems] = useState<Categories>(getItems as Categories);
+  const [categoryItems, setcategoryItems] = useState<CategoryType>(
+    Items[category as string] || (Items[category as string] = [])
+  );
 
   useEffect(() => {
     localStorage.setItem("Items", JSON.stringify(Items));
+    setcategoryItems(Items[category as string]);
+  }, [getItems, Items]);
+
+  useEffect(() => {
+    if (ItemAdded) {
+      console.log(ItemAdded);
+      const itemWithID = getNewID(
+        categoryItems.map((obj) => obj.id),
+        ItemAdded
+      );
+      setcategoryItems([...categoryItems, itemWithID]);
+      console.log(itemWithID, categoryItems);
+    }
+  }, [ItemAdded]);
+
+  useEffect(() => {
+    setItems({ ...Items, [category as string]: categoryItems });
   }, [categoryItems]);
 
   return (
     <>
-      <main className="flex flex-col justify-center items-center text-center gap-2 pt-10 px-2">
+      <main className="flex flex-col justify-center items-center text-center gap-2 pt-10 pb-20 px-2">
         <h1>{upperCaseTitle(category?.replace(/_/g, " ") as string)}</h1>
         <h2>Category</h2>
         <AddItem />
-        <p>{JSON.stringify(categoryItems)}</p>
         <p>from Items:</p>
-        {populateItems(categoryItems)}
+        {
+          categoryItems.map((item, index) => {
+          return (
+            <ItemDisplay key={index}
+              params={item}
+            />
+            );
+          })
+        }
       </main>
     </>
   );
@@ -39,12 +69,7 @@ const upperCaseTitle: (sentence: string) => string = (sentence: string) => {
 
 export default Category;
 
-const populateItems = (itemsArray: Category) => {
-  return (
-    <>
-      {Object.keys(itemsArray).map((item, index) => {
-        return <p key={index}>{item}</p>;
-      })}
-    </>
-  );
+export const getItems = async () => {
+  const Items = await JSON.parse(localStorage.getItem("Items") || "{}");
+  return Items;
 };

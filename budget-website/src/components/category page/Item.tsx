@@ -1,22 +1,17 @@
-type ItemType = {
-  Item: "water bil";
-  Amount: 1000;
-  Quantity: 1;
-  Total: 1000;
+import { Item } from "@/utils/localStorageHandler";
+import { Form } from "react-router-dom";
 
-  id: number;
-  category: string;
-};
+export const ItemDisplay = ({
+  params
+}: { params: Item }) => {
 
-
-
-
-export const Item = ({ params }: { params: ItemType }) => {
+  const { Quantity, Name, Amount, Total } = params
   return (
     <>
-      <label>
-        {params.Item}
-      </label>
+      <Form className="bg-slate-200 p-4 flex justify-between items-center gap-2 rounded-md">
+        <input type="text" name="name" id="" value={Name} />
+        
+      </Form>
     </>
   );
 };

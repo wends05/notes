@@ -1,14 +1,14 @@
-import { useActionData, useNavigate } from "react-router-dom";
+import { redirect, useActionData, useNavigate } from "react-router-dom";
 import { startPageFormProps } from "./utils/localStorageHandler";
 import { useEffect } from "react";
 
 const Loading = () => {
   let getFormData = useActionData() as startPageFormProps;
 
-  const nav = useNavigate();
-  console.log(getFormData);
+  const nav = useNavigate()
   useEffect(() => {
     const loadingTime = setTimeout(() => {
+      
       nav("/home");
     }, 2000);
     return () => clearTimeout(loadingTime);
