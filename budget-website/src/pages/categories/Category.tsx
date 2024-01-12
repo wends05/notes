@@ -10,35 +10,80 @@ import AddItem from "../../components/category page/AddItem";
 import { ItemDisplay } from "@/components/category page/Item";
 
 const Category = () => {
-  const ItemAdded = useActionData() as Item;
-  const getItems = useLoaderData();
-  const { category } = useParams<string>();
+  const { category } = useParams();
+  const getData = useLoaderData() as Categories;
+  const itemAdded = useActionData() as Item;
 
-  const [Items, setItems] = useState<Categories>(getItems as Categories);
-  const [categoryItems, setcategoryItems] = useState<CategoryType>(
-    Items[category as string] || (Items[category as string] = [])
+  const [Items, setItems] = useState<Categories>(getData);
+
+  const [CategoryData, setCategoryData] = useState<CategoryType>(
+    Items[category as string] || {
+      Items: [],
+      Budget: 0,
+      Total: 0,
+    }
   );
 
   useEffect(() => {
+    setCategoryData(
+      Items[category as string] || {
+        Items: [],
+        Budget: 0,
+        Total: 0,
+      }
+    );
+  }, [getData]);
+
+  useEffect(() => {
+    setItems((prevState) => ({
+      ...prevState,
+      [category as string]: CategoryData,
+    }));
+  }, [CategoryData]);
+
+  useEffect(() => {
     localStorage.setItem("Items", JSON.stringify(Items));
-    setcategoryItems(Items[category as string]);
-  }, [getItems, Items]);
+  }, [Items]);
 
   useEffect(() => {
-    if (ItemAdded) {
-      console.log(ItemAdded);
-      const itemWithID = getNewID(
-        categoryItems.map((obj) => obj.id),
-        ItemAdded
+    if (itemAdded) {
+
+      const allIDs = [] as number[];
+      
+      for (const category in Items) {
+        Items[category].Items.map((item: Item) => allIDs.push(item.id));
+      }
+      console.log(allIDs);
+      const newItem = getNewID(
+        allIDs,
+        itemAdded
       );
-      setcategoryItems([...categoryItems, itemWithID]);
-      console.log(itemWithID, categoryItems);
+      setCategoryData((prevState) => ({
+        ...prevState,
+        Items: [...prevState.Items, newItem],
+        
+      }));
     }
-  }, [ItemAdded]);
+  }, [itemAdded]);
 
-  useEffect(() => {
-    setItems({ ...Items, [category as string]: categoryItems });
-  }, [categoryItems]);
+  const edititem = (data :Item) => {
+    setCategoryData((prevState) => ({
+      ...prevState,
+      Items: prevState.Items.map((item) => {
+        if (item.id === data.id) {
+          return data;
+        }
+        return item;
+      }),
+    }));
+  }
+
+  const deleteItem = (data : Item) => {
+    setCategoryData((prevState) => ({
+      ...prevState,
+      Items: prevState.Items.filter((item) => item.id !== data.id),
+    }));
+  }
 
   return (
     <>
@@ -47,15 +92,13 @@ const Category = () => {
         <h2>Category</h2>
         <AddItem />
         <p>from Items:</p>
-        {
-          categoryItems.map((item, index) => {
-          return (
-            <ItemDisplay key={index}
-              params={item}
-            />
-            );
-          })
-        }
+        {CategoryData?.Items.map((item: Item) => (
+          <ItemDisplay
+            edit={edititem}
+            dlt={deleteItem}
+            key={item.id}
+            params={item} />
+        ))}
       </main>
     </>
   );

@@ -1,8 +1,11 @@
-import { redirect, useActionData, useNavigate } from "react-router-dom";
+import { useActionData, useNavigate } from "react-router-dom";
 import { startPageFormProps } from "./utils/localStorageHandler";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Loading = () => {
+
+  useState
+
   let getFormData = useActionData() as startPageFormProps;
 
   const nav = useNavigate()

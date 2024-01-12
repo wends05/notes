@@ -38,13 +38,17 @@ export type Categories = {
   [category: string]: Category;
 };
 
-export type CategoryType = Item[];
+export type CategoryType = {
+  Items: Item[];
+  Budget: number;
+  Total: number;
+};
 
 export interface Item {
   Name: string;
   id: number;
-  Quantity?: number | 1;
-  Amount?: number | 1;
+  Quantity: number | 1;
+  Amount: number | 1;
   Total: number;
 }
 
