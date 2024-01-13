@@ -1,6 +1,6 @@
 import { Item } from "@/utils/localStorageHandler";
-import { Check, CheckCircleIcon, Edit, Pencil, Trash2, X } from "lucide-react";
-import React, { FormEvent, FormEventHandler, SyntheticEvent, useEffect, useState } from "react";
+import { Check, Pencil, Trash2, X } from "lucide-react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Form } from "react-router-dom";
 
 interface ItemDisplay {
@@ -85,7 +85,7 @@ export const ItemDisplay: React.FC<ItemDisplay> = (
             className="w-12 text-center rounded-md"
             value={Amount}
             min={1}
-            onChange={(e) => setAmount(parseInt(e.target.value))}
+            onChange={(e) => setAmount(parseFloat(e.target.value))}
             disabled={!editable}
           />
           <label htmlFor="total">Total</label>
@@ -94,7 +94,7 @@ export const ItemDisplay: React.FC<ItemDisplay> = (
             id="total"
             name="total"
             className="w-12 text-center rounded-md"
-            value={Total}
+            value={Total? Total : 0}
             min={1}
             readOnly={true}
           />
@@ -121,7 +121,7 @@ export const ItemDisplay: React.FC<ItemDisplay> = (
               <Check />
             </button>
             <button
-              type="button"
+              type="reset"
               hidden={!editable}
               onClick={cancelChanges}
             >

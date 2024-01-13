@@ -25,14 +25,22 @@ export const submitItem = async ({ request }: { request: Request }) => {
   return ItemInfo;
 };
 
-export const getNewID = (IDlists : number[], Item : Item) => {
+export const getNewID = (IDlists: number[], Item: Item) => {
+  
+  const availableIDs = new Set(IDlists);
+
   let newID = 1;
-  while (IDlists.sort().includes(newID)) {
-    newID++
+  while (availableIDs.has(newID)) {
+    newID++;
   }
-  Item.id = newID
-  return Item
-}
+  Item.id = newID;
+  return Item;
+};
+
+export const editTotal = (prevCategoryData: CategoryType, newItem: Item) => {
+  const currentTotal = prevCategoryData.Total;
+  prevCategoryData.Items.find((item) => item.id === newItem.id);
+};
 
 export type Categories = {
   [category: string]: Category;

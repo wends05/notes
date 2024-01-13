@@ -4,6 +4,7 @@ import {
   Categories,
   CategoryType,
   Item,
+  editTotal,
   getNewID,
 } from "@/utils/localStorageHandler";
 import AddItem from "../../components/category page/AddItem";
@@ -12,7 +13,7 @@ import { ItemDisplay } from "@/components/category page/Item";
 const Category = () => {
   const { category } = useParams();
   const getData = useLoaderData() as Categories;
-  const itemAdded = useActionData() as Item;
+  let itemAdded: Item | null = useActionData() as Item;
 
   const [Items, setItems] = useState<Categories>(getData);
 
@@ -24,6 +25,8 @@ const Category = () => {
     }
   );
 
+  const [Budget, setBudget] = useState<number>(CategoryData.Budget);
+
   useEffect(() => {
     setCategoryData(
       Items[category as string] || {
@@ -32,6 +35,7 @@ const Category = () => {
         Total: 0,
       }
     );
+    setBudget(CategoryData.Budget);
   }, [getData]);
 
   useEffect(() => {
@@ -47,43 +51,59 @@ const Category = () => {
 
   useEffect(() => {
     if (itemAdded) {
+      console.log(itemAdded);
 
-      const allIDs = [] as number[];
-      
-      for (const category in Items) {
-        Items[category].Items.map((item: Item) => allIDs.push(item.id));
-      }
-      console.log(allIDs);
-      const newItem = getNewID(
-        allIDs,
-        itemAdded
-      );
-      setCategoryData((prevState) => ({
-        ...prevState,
-        Items: [...prevState.Items, newItem],
-        
-      }));
+      setCategoryData((prevState) => {
+        const allIDs: number[] = [];
+
+        for (const category in Items) {
+          Items[category].Items.forEach((item: Item) => allIDs.push(item.id));
+        }
+        console.log(allIDs);
+        const newItem = getNewID(allIDs, itemAdded as Item);
+
+        if (!allIDs.includes(newItem.id)) {
+          return {
+            ...prevState,
+            Items: [...prevState.Items, newItem],
+            Total: Number(prevState.Total) + Number(newItem.Amount),
+          };
+        }
+        console.error(
+          "gaga may parehas nga id imo nga array wahahaha",
+          allIDs,
+          itemAdded
+        );
+        itemAdded = null;
+        return prevState;
+      });
     }
   }, [itemAdded]);
 
-  const edititem = (data :Item) => {
-    setCategoryData((prevState) => ({
-      ...prevState,
-      Items: prevState.Items.map((item) => {
-        if (item.id === data.id) {
-          return data;
-        }
-        return item;
-      }),
-    }));
-  }
+  const edititem = (data: Item) => {
+    setCategoryData((prevState) => {
+      const prevItem = prevState.Items.find((item) => item.id === data.id);
 
-  const deleteItem = (data : Item) => {
+      return {
+        ...prevState,
+        Items: prevState.Items.map((item) => {
+          if (item.id === data.id) {
+            return data;
+          }
+          return item;
+        }),
+        Total: prevState.Total - prevItem!.Total + data.Total,
+      };
+    });
+  };
+
+  const deleteItem = (data: Item) => {
     setCategoryData((prevState) => ({
       ...prevState,
       Items: prevState.Items.filter((item) => item.id !== data.id),
+      Total: prevState.Total - data.Total,
     }));
-  }
+  };
 
   return (
     <>
@@ -91,13 +111,30 @@ const Category = () => {
         <h1>{upperCaseTitle(category?.replace(/_/g, " ") as string)}</h1>
         <h2>Category</h2>
         <AddItem />
+        <div>
+          Budget: <input
+            type="number"
+            defaultValue={Budget}
+            className="input text-center rounded-md w-20"
+            onChange={(e) => {
+              setBudget(parseFloat(e.target.value));
+              setCategoryData((prev) => ({
+                ...prev,
+                Budget: parseFloat(e.target.value) | 0,
+              }));
+            }}
+          />
+          <p>Total: {CategoryData.Total}</p>
+          <p>Difference: {CategoryData.Budget - CategoryData.Total}</p>
+        </div>
         <p>from Items:</p>
         {CategoryData?.Items.map((item: Item) => (
           <ItemDisplay
             edit={edititem}
             dlt={deleteItem}
             key={item.id}
-            params={item} />
+            params={item}
+          />
         ))}
       </main>
     </>
