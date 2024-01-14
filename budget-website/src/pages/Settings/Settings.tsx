@@ -1,4 +1,5 @@
-import { ChangeEvent, FormEvent, FormEventHandler, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { Form, Link } from "react-router-dom";
 
 const Settings = () => {
   const [Name, setName] = useState<string>(
@@ -6,7 +7,7 @@ const Settings = () => {
       JSON.parse(localStorage.getItem("Name") || "")
   );
 
-  const changeName: FormEventHandler<HTMLFormElement> = (e: FormEvent) => {
+  const changeName = (e: FormEvent) => {
     e.preventDefault();
 
     localStorage.setItem("Name", JSON.stringify(Name));
@@ -17,8 +18,7 @@ const Settings = () => {
     <main className={"main gap-2"}>
       <h1>Settings</h1>
       <p>Reenter your name here</p>
-
-      <form
+      <Form
         className="flex flex-row gap-3 bg-gray-400 rounded-xl p-2"
         onSubmit={changeName}
       >
@@ -31,7 +31,11 @@ const Settings = () => {
           value={Name}
         />
         <input className="btn" type="submit" value="Set" />
-      </form>
+      </Form>
+      <Link to={'/confirmReset'}
+      className="bg-red-600 p-2 text-white rounded-md">
+        Reset Data
+      </Link>
     </main>
   );
 };

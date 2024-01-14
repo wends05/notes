@@ -1,6 +1,4 @@
-//@ts-nocheck
 
-import { Params, useParams } from "react-router-dom";
 
 export const createStorage = () => {
   localStorage.getItem("Items")
@@ -8,42 +6,24 @@ export const createStorage = () => {
     : localStorage.setItem("Items", JSON.stringify({}));
 };
 
-export const getItems = async ({
-  params,
-  request,
-}: {
-  params: Params;
-  request: Request;
-}) => {
+export const getItems = async () => {
   const Items = await JSON.parse(localStorage.getItem("Items") || "{}");
   return Items;
 };
 
-type startPageFormProps = {
-  username: string;
-};
-
 export const getName = async ({ request }: { request: Request }) => {
-  console.log(params);
   const formData = await request.formData();
-  const Name: startPageFormProps = Object.fromEntries(formData);
+  const Name = Object.fromEntries(formData);
   localStorage.setItem("Name", JSON.stringify(Name.username));
   return Name;
 };
 
-export const submitItem = async ({
-  params,
-  request,
-}: {
-  params: Params;
-  request: Request;
-}) => {
+export const submitItem = async ({ request }: { request: Request }) => {
   const formData = await request.formData();
   const ItemInfo = Object.fromEntries(formData);
 
-  console.log(formData)
-  console.log(ItemInfo)
-
+  console.log(formData);
+  console.log(ItemInfo);
 
   return ItemInfo;
 };
@@ -59,13 +39,8 @@ export const getNewID = (IDlists: number[], Item: Item) => {
   return Item;
 };
 
-export const editTotal = (prevCategoryData: CategoryType, newItem: Item) => {
-  const currentTotal = prevCategoryData.Total;
-  prevCategoryData.Items.find((item) => item.id === newItem.id);
-};
-
 export type Categories = {
-  [category: string]: Category;
+  [category: string]: CategoryType;
 };
 
 export type CategoryType = {
@@ -89,29 +64,26 @@ export type Data = {
 
 // example chura sang localStorage
 
-const exampleCategory: Category = [
-  {
-    name: "Pizza",
-    id: 1,
-    Quantity: 2,
-    Amount: 10,
-    Total: 20,
-  },
-];
-const exampleData: Data = {
-  Name: "Wends",
-  Items: {
-    bills: [
-      {
-        Name: "Rent",
-        id: 1,
-        Quantity: 2,
-        Amount: 1000,
-        Total: 2000,
-      },
-    ],
-  },
-};
+// const exampleData: Data = {
+//   Name: "Wends",
+//   Items: {
+//     bills:{
+//       Items: [
+//       {
+//         Name: "Rent",
+//         id: 1,
+//         Quantity: 2,
+//         Amount: 1000,
+//         Total: 2000,
+//       },
+//     ],
+//     Budget: 0,
+//     Total: 0
+//     }
+//   }
+// };
+
+
 // const data: Data = {
 //   Name: "Wends",
 //   Items: {

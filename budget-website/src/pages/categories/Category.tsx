@@ -1,5 +1,5 @@
-import { useActionData, useLoaderData, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useLoaderData, useParams } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
 import {
   Categories,
   CategoryType,
@@ -12,7 +12,6 @@ import { ItemDisplay } from "@/components/category page/Item";
 const Category = () => {
   const { category } = useParams();
   const getData = useLoaderData() as Categories;
-  let itemAdded: Item | null = useActionData() as Item;
 
   const [Items, setItems] = useState<Categories>(getData);
 
@@ -27,56 +26,47 @@ const Category = () => {
   const [Budget, setBudget] = useState<number>(CategoryData.Budget);
 
   useEffect(() => {
-    setCategoryData(
-      Items[category as string] || {
-        Items: [],
-        Budget: 0,
-        Total: 0,
-      }
-    );
-    setBudget(CategoryData.Budget);
-  }, [getData]);
-
-  useEffect(() => {
     setItems((prevState) => ({
       ...prevState,
       [category as string]: CategoryData,
     }));
-  }, [CategoryData]);
+  }, [CategoryData, category]);
 
   useEffect(() => {
     localStorage.setItem("Items", JSON.stringify(Items));
   }, [Items]);
 
-  useEffect(() => {
-    if (itemAdded) {
-      console.log(itemAdded);
+  const additem = (e: FormEvent) => {
+    e.preventDefault();
+    setCategoryData((prevState) => {
+      const newItem: unknown = Object.fromEntries(
+        new FormData(e.currentTarget as HTMLFormElement)
+      );
+      console.log(newItem);
 
-      setCategoryData((prevState) => {
+      const allIDs: number[] = [];
 
-        
-        const allIDs: number[] = [];
+      for (const c in Items) {
+        Items[c].Items.forEach((item: Item) => {
+          allIDs.push(item.id);
+        });
+      }
 
-        for (const category in Items) {
-          Items[category].Items.forEach((item: Item) => allIDs.push(item.id));
+      const newItemwithNewId : Item = getNewID(allIDs, newItem as Item);
+
+      if (!allIDs.includes(newItemwithNewId.id)) {
+        return {
+          ...prevState,
+          Items: [...prevState.Items, newItemwithNewId],
+          Total: Number(prevState.Total) + Number(newItemwithNewId.Amount)
         }
-        console.log(allIDs);
-        const newItem = getNewID(allIDs, itemAdded as Item);
+      }
 
-        if (!allIDs.includes(newItem.id)) {
-          
-          return {
-            ...prevState,
-            Items: [...prevState.Items, newItem],
-            Total: Number(prevState.Total) + Number(newItem.Amount),
-          };
-        }
-        
-        itemAdded = null;
-        return prevState;
-      });
-    }
-  }, [itemAdded]);
+      return prevState;
+    });
+
+
+  };
 
   const edititem = (data: Item) => {
     setCategoryData((prevState) => {
@@ -108,7 +98,8 @@ const Category = () => {
       <main className="flex flex-col justify-center items-center text-center gap-2 pt-10 pb-20 px-2">
         <h1>{upperCaseTitle(category?.replace(/_/g, " ") as string)}</h1>
         <div>
-          Budget: <input
+          Budget:{" "}
+          <input
             type="number"
             defaultValue={Budget}
             className="input text-center rounded-md w-20 mb-2"
@@ -120,8 +111,7 @@ const Category = () => {
               }));
             }}
           />
-          <AddItem />
-        
+          <AddItem ItemAdded={additem} />
           <p>Total: {CategoryData.Total}</p>
           <p>Difference: {CategoryData.Budget - CategoryData.Total}</p>
         </div>

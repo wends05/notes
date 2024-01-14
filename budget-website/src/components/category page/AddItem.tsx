@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Form } from "react-router-dom";
 
-const AddItem = () => {
+const AddItem = ({ ItemAdded }: { ItemAdded: (e: FormEvent) => void }) => {
+
+
   const [Name, setName] = useState("");
   const [Amount, setAmount] = useState(1);
   const [Quantity, setQuantity] = useState(1);
@@ -11,7 +13,7 @@ const AddItem = () => {
     setTotal(Amount * Quantity);
   }, [Amount, Quantity]);
 
-  const submitItem = () => {
+  const resetInputs = () => {
     setName("");
     setAmount(1);
     setQuantity(1);
@@ -20,9 +22,11 @@ const AddItem = () => {
   return (
     <Form
       className="bg-slate-500 grid grid-flow-row sm:grid-flow-col items-center justify-center p-2 rounded-md gap-2 text-white"
-      method="PUT"
-      onSubmit={submitItem}
-      action="./"
+      method="post"
+      onSubmit={(e: FormEvent) => {
+        ItemAdded(e);
+        resetInputs();
+      }}
     >
       <div className={"flex flex-col col-span-2"}>
         <label htmlFor="Name" className={"w-full text-left"}>

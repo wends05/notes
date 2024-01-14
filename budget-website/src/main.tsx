@@ -16,13 +16,14 @@ import ErrorPage from "./pages/ErrorPage";
 
 import Start from "./Start";
 import Home from "./pages/Home";
-import Settings from "./pages/Settings";
+import Settings from "./pages/Settings/Settings";
 import About from "./pages/About";
 import Tracker from "./pages/Tracker/Tracker";
 import Outline from "./pages/categories/Outline";
 import Category from "./pages/categories/Category";
-import { getName, submitItem, getItems } from "./utils/localStorageHandler";
+import { getName, getItems } from "./utils/localStorageHandler";
 import Loading from "./loading";
+import ConfirmReset from "./pages/Settings/ConfirmReset";
 
 const Root = () => {
   const loc = useLocation()
@@ -72,7 +73,6 @@ const BrowserRoutes = createBrowserRouter(
               path: ":category",
               element: <Category />,
               loader: getItems,
-              action: submitItem,
               errorElement: <ErrorPage />
             }
           ]
@@ -83,6 +83,10 @@ const BrowserRoutes = createBrowserRouter(
       path: "loading",
       element: <Loading/>,
       action: getName
+    },
+    {
+      path: "confirmReset",
+      element: <ConfirmReset />
     }
   ],
   {
