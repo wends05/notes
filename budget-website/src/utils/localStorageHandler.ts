@@ -1,6 +1,6 @@
 //@ts-nocheck
 
-import { useParams } from "react-router-dom";
+import { Params, useParams } from "react-router-dom";
 
 export const createStorage = () => {
   localStorage.getItem("Items")
@@ -8,25 +8,47 @@ export const createStorage = () => {
     : localStorage.setItem("Items", JSON.stringify({}));
 };
 
-export type startPageFormProps = {
+export const getItems = async ({
+  params,
+  request,
+}: {
+  params: Params;
+  request: Request;
+}) => {
+  const Items = await JSON.parse(localStorage.getItem("Items") || "{}");
+  return Items;
+};
+
+type startPageFormProps = {
   username: string;
 };
 
 export const getName = async ({ request }: { request: Request }) => {
+  console.log(params);
   const formData = await request.formData();
   const Name: startPageFormProps = Object.fromEntries(formData);
   localStorage.setItem("Name", JSON.stringify(Name.username));
   return Name;
 };
 
-export const submitItem = async ({ request }: { request: Request }) => {
+export const submitItem = async ({
+  params,
+  request,
+}: {
+  params: Params;
+  request: Request;
+}) => {
   const formData = await request.formData();
   const ItemInfo = Object.fromEntries(formData);
+
+  console.log(formData)
+  console.log(ItemInfo)
+
+
   return ItemInfo;
 };
 
 export const getNewID = (IDlists: number[], Item: Item) => {
-  
   const availableIDs = new Set(IDlists);
 
   let newID = 1;

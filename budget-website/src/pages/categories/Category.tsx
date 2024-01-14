@@ -4,7 +4,6 @@ import {
   Categories,
   CategoryType,
   Item,
-  editTotal,
   getNewID,
 } from "@/utils/localStorageHandler";
 import AddItem from "../../components/category page/AddItem";
@@ -54,6 +53,8 @@ const Category = () => {
       console.log(itemAdded);
 
       setCategoryData((prevState) => {
+
+        
         const allIDs: number[] = [];
 
         for (const category in Items) {
@@ -63,17 +64,14 @@ const Category = () => {
         const newItem = getNewID(allIDs, itemAdded as Item);
 
         if (!allIDs.includes(newItem.id)) {
+          
           return {
             ...prevState,
             Items: [...prevState.Items, newItem],
             Total: Number(prevState.Total) + Number(newItem.Amount),
           };
         }
-        console.error(
-          "gaga may parehas nga id imo nga array wahahaha",
-          allIDs,
-          itemAdded
-        );
+        
         itemAdded = null;
         return prevState;
       });
@@ -109,13 +107,11 @@ const Category = () => {
     <>
       <main className="flex flex-col justify-center items-center text-center gap-2 pt-10 pb-20 px-2">
         <h1>{upperCaseTitle(category?.replace(/_/g, " ") as string)}</h1>
-        <h2>Category</h2>
-        <AddItem />
         <div>
           Budget: <input
             type="number"
             defaultValue={Budget}
-            className="input text-center rounded-md w-20"
+            className="input text-center rounded-md w-20 mb-2"
             onChange={(e) => {
               setBudget(parseFloat(e.target.value));
               setCategoryData((prev) => ({
@@ -124,6 +120,8 @@ const Category = () => {
               }));
             }}
           />
+          <AddItem />
+        
           <p>Total: {CategoryData.Total}</p>
           <p>Difference: {CategoryData.Budget - CategoryData.Total}</p>
         </div>
@@ -148,8 +146,3 @@ const upperCaseTitle: (sentence: string) => string = (sentence: string) => {
 };
 
 export default Category;
-
-export const getItems = async () => {
-  const Items = await JSON.parse(localStorage.getItem("Items") || "{}");
-  return Items;
-};

@@ -12,7 +12,6 @@ const Settings = () => {
     localStorage.setItem("Name", JSON.stringify(Name));
   };
 
-  console.log(Name);
 
   return (
     <main className={"main gap-2"}>

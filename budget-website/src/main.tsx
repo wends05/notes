@@ -18,10 +18,10 @@ import Start from "./Start";
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import About from "./pages/About";
-import Tracker from "./pages/Tracker";
+import Tracker from "./pages/Tracker/Tracker";
 import Outline from "./pages/categories/Outline";
-import Category, { getItems } from "./pages/categories/Category";
-import { getName, submitItem } from "./utils/localStorageHandler";
+import Category from "./pages/categories/Category";
+import { getName, submitItem, getItems } from "./utils/localStorageHandler";
 import Loading from "./loading";
 
 const Root = () => {
@@ -62,6 +62,7 @@ const BrowserRoutes = createBrowserRouter(
         {
           path: "tracker",
           element: <Tracker />,
+          loader: getItems
         },
         {
           path: "category",

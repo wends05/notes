@@ -17,6 +17,9 @@ h1 {
     @apply text-6xl
 }
 
+h2 {
+    @apply text-4xl
+}
 .btn {
     @apply bg-slate-600 flex flex-col items-center justify-center h-10 rounded-xl px-4 text-white hover:bg-slate-700 active:bg-slate-800 disabled:text-gray-200 disabled:bg-slate-800
 }

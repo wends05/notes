@@ -1,9 +1,7 @@
-
 import { useEffect, useState } from "react";
 import { Form } from "react-router-dom";
 
 const AddItem = () => {
-
   const [Name, setName] = useState("");
   const [Amount, setAmount] = useState(1);
   const [Quantity, setQuantity] = useState(1);
@@ -13,39 +11,36 @@ const AddItem = () => {
     setTotal(Amount * Quantity);
   }, [Amount, Quantity]);
 
+  const submitItem = () => {
+    setName("");
+    setAmount(1);
+    setQuantity(1);
+  };
+
   return (
     <Form
       className="bg-slate-500 grid grid-flow-row sm:grid-flow-col items-center justify-center p-2 rounded-md gap-2 text-white"
-      method="post"
-      onSubmit={() => {
-        setName("")
-        setAmount(1)
-        setQuantity(1)
-      }}
+      method="PUT"
+      onSubmit={submitItem}
+      action="./"
     >
       <div className={"flex flex-col col-span-2"}>
-        <label
-          htmlFor="Name"
-          className={"w-full text-left"}
-        >
+        <label htmlFor="Name" className={"w-full text-left"}>
           Item Name:
         </label>
         <input
-        type="text"
-        name="Name"
-        required={true}
-        placeholder="Item"
-        id="Name"
-        className="p-2 text-md h-8 w-36 rounded-md col-span-2 text-black text-center"
-        value={Name}
-        onChange={(e)=>setName(e.target.value)}  
-      />
+          type="text"
+          name="Name"
+          required={true}
+          placeholder="Item"
+          id="Name"
+          className="p-2 text-md h-8 w-36 rounded-md col-span-2 text-black text-center"
+          value={Name}
+          onChange={(e) => setName(e.target.value)}
+        />
       </div>
       <div className={"flex flex-col items-center"}>
-        <label
-          htmlFor="Quantity"
-          className={"text-center w-full"}
-        >
+        <label htmlFor="Quantity" className={"text-center w-full"}>
           Quantity
         </label>
         <input
@@ -61,10 +56,7 @@ const AddItem = () => {
         />
       </div>
       <div className={"flex flex-col items-center"}>
-        <label
-          htmlFor="Amount"
-          className={"text-center w-full"}
-        >
+        <label htmlFor="Amount" className={"text-center w-full"}>
           Amount
         </label>
         <input
@@ -78,14 +70,14 @@ const AddItem = () => {
           placeholder="1"
           step={0.01}
           onChange={(e) => setAmount(parseFloat(e.target.value))}
-          
         />
       </div>
-      <div className={"flex flex-col items-center col-span-2 w-full bg-slate-500 justify-normal"}>
-        <label
-          htmlFor="Total"
-          className={""}
-        >
+      <div
+        className={
+          "flex flex-col items-center col-span-2 w-full bg-slate-500 justify-normal"
+        }
+      >
+        <label htmlFor="Total" className={""}>
           Total
         </label>
         <input
@@ -102,8 +94,6 @@ const AddItem = () => {
       <button
         type="submit"
         className="btn col-span-2 mx-10 sm:mx-2 appearance-none"
-        value="Add"
-        
       >
         Enter
       </button>
