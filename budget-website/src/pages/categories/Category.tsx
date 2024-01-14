@@ -18,13 +18,20 @@ const Category = () => {
   const [CategoryData, setCategoryData] = useState<CategoryType>(
     Items[category as string] || {
       Items: [],
-      Budget: 0,
+      Budget: 1,
       Total: 0,
     }
   );
 
-  const [Budget, setBudget] = useState<number>(CategoryData.Budget);
-
+  
+  useEffect(()=> {
+    setCategoryData(Items[category as string] || {
+      Items: [],
+      Budget: 1,
+      Total: 0,
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, getData])
   useEffect(() => {
     setItems((prevState) => ({
       ...prevState,
@@ -101,10 +108,10 @@ const Category = () => {
           Budget:{" "}
           <input
             type="number"
-            defaultValue={Budget}
+            value={CategoryData.Budget}
             className="input text-center rounded-md w-20 mb-2"
             onChange={(e) => {
-              setBudget(parseFloat(e.target.value));
+
               setCategoryData((prev) => ({
                 ...prev,
                 Budget: parseFloat(e.target.value) | 0,
