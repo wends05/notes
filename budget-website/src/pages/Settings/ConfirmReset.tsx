@@ -10,7 +10,8 @@ const ConfirmReset = () => {
 
   useEffect(() => {
     const backToHome = setInterval(() =>{
-      nav('/home')
+
+      reset && nav('../capycopy/home')
       localStorage.setItem("Items", "{}");
     }, 1000)
 

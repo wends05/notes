@@ -32,7 +32,7 @@ const Settings = () => {
         />
         <input className="btn" type="submit" value="Set" />
       </Form>
-      <Link to={'/confirmReset'}
+      <Link to={'../confirmReset'}
       className="bg-red-600 p-2 text-white rounded-md">
         Reset Data
       </Link>

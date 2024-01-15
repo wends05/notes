@@ -42,7 +42,7 @@ const Root = () => {
 const BrowserRoutes = createBrowserRouter(
   [
     {
-      path: "/",
+      path: "/capycopy",
       element: <Root />,
       errorElement: <ErrorPage />,
       action: getName,
@@ -80,13 +80,17 @@ const BrowserRoutes = createBrowserRouter(
       ]
     },
     {
-      path: "loading",
+      path: "/capycopy/loading",
       element: <Loading/>,
       action: getName
     },
     {
-      path: "confirmReset",
+      path: "/capycopy/confirmReset",
       element: <ConfirmReset />
+    },
+    {
+      path: "/capycopy/",
+      element: <Start />
     }
   ],
   {
