@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "Budget website",
   "main": "Start.tsx",
-  "homepage": "http://wends05.github.io/capycopy",
+  "homepage": "https://wends05.github.io/capycopy",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",

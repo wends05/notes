@@ -7,7 +7,7 @@ const HomeCard = ({image, title, to}:
   to: string
 }) => {
   return (
-    <Link className={"card"} to={`/category${to}`}>
+    <Link className={"card"} to={`../category${to}`}>
       <img
         src={image}
         alt={title}

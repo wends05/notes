@@ -3,19 +3,19 @@ import { NavLink } from "react-router-dom";
 const HeaderLinks = [
   {
     page: "Home",
-    href: "/home",
+    href: "./home",
   },
   {
     page: "About",
-    href: "/about",
+    href: "./about",
   },
   {
     page: "Tracker",
-    href: "/tracker",
+    href: "./tracker",
   },
   {
     page: "Settings",
-    href: "/settings",
+    href: "./settings",
   },
 ];
 
@@ -28,7 +28,7 @@ const Header = () => {
           
         </button>
         {HeaderLinks.map((page, index) => (
-          <NavLink key={index} to={page.href} className="btn">
+          <NavLink key={index} to={`${page.href}`} className="btn">
             {page.page}
           </NavLink>
         ))}

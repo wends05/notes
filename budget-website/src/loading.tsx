@@ -14,7 +14,7 @@ const Loading = () => {
   useEffect(() => {
     const loadingTime = setTimeout(() => {
       
-      nav("/home");
+      nav("../capycopy/home");
     }, 2000);
     return () => clearTimeout(loadingTime);
   }, [nav]);
