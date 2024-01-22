@@ -1,0 +1,13 @@
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.header-bar {
+  position: absolute;
+  align-self: baseline;
+  width: 100%;
+  background-color: aquamarine;
+}
