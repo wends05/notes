@@ -1,13 +1,14 @@
-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.Hello {
+  color: darkblue;
 }
 
-.header-bar {
-  position: absolute;
-  align-self: baseline;
+h1 {
   width: 100%;
-  background-color: aquamarine;
+  background-color: beige;
+  margin-left: 50px;
+  padding-left: 50px;
+}
+
+#button {
+  width: 100%;
 }
